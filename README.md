@@ -101,3 +101,46 @@
 ## Documenting Responses
 - here we use **requestFields** instead of responseFields used for response
 - for properties we don't pass, use **.ignored()**
+
+## Documenting Validation Constraints
+- create test resources folder (re-import maven)
+- create directory one by one org > springframework > restdocs > templates
+- add file request-fields.snippet
+- input the below
+- ```text
+        |===
+        |Path|Type|Description|Constraints
+
+    {{#fields}}
+        |{{path}}
+        |{{type}}
+        |{{description}}
+        |{{constraints}}
+
+    {{/fields}}
+        |===
+  ```
+  
+- running tests now we will get the below error
+- org.springframework.restdocs.mustache.MustacheException$Context: No method or field with name 'constraints' on line X
+- add code snippet to test class
+- ```java
+     private static class ConstrainedFields {
+
+        private final ConstraintDescriptions constraintDescriptions;
+
+        ConstrainedFields(Class<?> input){
+            this.constraintDescriptions = new ConstraintDescriptions(input);
+        }
+
+        private FieldDescriptor withPath(String path){
+            return fieldWithPath(path).attributes(key("constraints").value(StringUtils
+                    .collectionToDelimitedString(this.constraintDescriptions
+                            .descriptionsForProperty(path), ". ")));
+        }
+    }
+  ```
+- FINALLY, declare snippet in class method ConstrainedFields fields = new ConstrainedFields(BeerDto.class);
+- and  replace default **fieldWithPath** with the above snippets  **fields.withPath**
+- run **mvn clean package**  and check target > generated-snippets > path defined in andDo(document(**))
+- e.g  v1/beer in  .andDo(document("v1/beer" ...)
