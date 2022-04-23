@@ -143,4 +143,43 @@
 - FINALLY, declare snippet in class method ConstrainedFields fields = new ConstrainedFields(BeerDto.class);
 - and  replace default **fieldWithPath** with the above snippets  **fields.withPath**
 - run **mvn clean package**  and check target > generated-snippets > path defined in andDo(document(**))
-- e.g  v1/beer in  .andDo(document("v1/beer" ...)
+- i.e v1/beer-get in  .andDo(document("v1/beer-get" ...)
+
+
+## Customizing the uriScheme, uriHost and uriPort of the docs
+- @AutoConfigureRestDocs(uriScheme = "https", uriHost = "dev.zikozee", uriPort = 80)
+
+## Documentation Generation
+- ensure document identifier in **andDo(document(##))** i.e ## is unique to generate unique docs for each methods
+- checkout the **index.html** in target > classes > generated-docs
+- move generated index.html to static/docs
+- ```xml
+               <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.outputDirectory}/static/docs
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        ${project.build.directory}/generated-docs
+                                    </directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>  
+  ```
+
+- start up app: java -jar app.jar
+- we can access via : http://localhost:8080/docs/index.html

@@ -16,10 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,7 +36,7 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(RestDocumentationExtension.class)
-@AutoConfigureRestDocs
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "dev.zikozee", uriPort = 80)
 @WebMvcTest(BeerController.class)
 @ComponentScan(basePackages = "com.zikozee.restdocsexample.web.mappers")
 class BeerControllerTest {
@@ -56,7 +58,7 @@ class BeerControllerTest {
                         .param("iscold", "yes")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("v1/beer",
+                .andDo(document("v1/beer-get", // todo info: this must be unique to each test method
                         pathParameters(
                                 parameterWithName("beerId").description("UUID of desired beer to get")
                         ),
@@ -74,6 +76,8 @@ class BeerControllerTest {
                                 fieldWithPath("price").description("Price"),
                                 fieldWithPath("quantityOnHand").description("Quantity On hand")
                         )));
+        //https://docs.spring.io/spring-restdocs/docs/current/reference/html5/#JSON%20Field%20Types
+        //JOSN TYPES IS INFERRED
     }
 
     @Test
@@ -87,7 +91,7 @@ class BeerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(beerDtoJson))
                 .andExpect(status().isCreated())
-                .andDo(document("v1/beer",
+                .andDo(document("v1/beer-new", // todo info: this must be unique to each test method
                         requestFields(
                                 fields.withPath("id").ignored(),
                                 fields.withPath("version").ignored(),
