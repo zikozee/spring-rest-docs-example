@@ -62,7 +62,7 @@
     notice {beerId} matches with parameter name
   ```
 
-## Query Paramters
+## Query Parameters
 - pay attention to param **.param("iscold", "yes")** and 
 - **requestParameters(parameterWithName("iscold").description("Is Beer Cold Query param"))**
 - ```java
@@ -79,3 +79,25 @@
                                 parameterWithName("iscold").description("Is Beer Cold Query param")
                         )));
   ```
+  
+## Documenting Responses
+- when documenting responses,
+- if you miss on property, the test will complain
+- pay attention to  **getBeerById()**
+- ```java 
+     responseFields(
+                                fieldWithPath("id").description("Id of Beer"),
+                                fieldWithPath("version").description("Version Number"),
+                                fieldWithPath("createdDate").description("Date Created"),
+                                fieldWithPath("lastModifiedDate").description("Date Updated"),
+                                fieldWithPath("beerName").description("Beer Name"),
+                                fieldWithPath("beerStyle").description("Beer Style"),
+                                fieldWithPath("upc").description("UPC of Beer"),
+                                fieldWithPath("price").description("Price"),
+                                fieldWithPath("quantityOnHand").description("Quantity On hand")
+                        )));
+  ```
+
+## Documenting Responses
+- here we use **requestFields** instead of responseFields used for response
+- for properties we don't pass, use **.ignored()**
