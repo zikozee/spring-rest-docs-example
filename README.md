@@ -61,3 +61,21 @@
                 )));
     notice {beerId} matches with parameter name
   ```
+
+## Query Paramters
+- pay attention to param **.param("iscold", "yes")** and 
+- **requestParameters(parameterWithName("iscold").description("Is Beer Cold Query param"))**
+- ```java
+
+            mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID().toString())
+                        .param("iscold", "yes")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("v1/beer",
+                        pathParameters(
+                        parameterWithName("beerId").description("UUID of desired beer to get")
+                ),
+                        requestParameters(
+                                parameterWithName("iscold").description("Is Beer Cold Query param")
+                        )));
+  ```
