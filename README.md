@@ -39,7 +39,8 @@
             </plugin>
   ```
 
-- add ascii doc directory and index.adoc to main folder
+- add asciidoc directory and index.adoc to main folder
+- add snippets in it
 
 ## Spring MockMvc Configuration
 - see documentation :-> https://docs.spring.io/spring-restdocs/docs/2.0.3.RELEASE/reference/html5/#getting-started-documentation-snippets-setup
