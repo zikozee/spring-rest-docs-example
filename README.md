@@ -43,3 +43,21 @@
 
 ## Spring MockMvc Configuration
 - see documentation :-> https://docs.spring.io/spring-restdocs/docs/2.0.3.RELEASE/reference/html5/#getting-started-documentation-snippets-setup
+- replace below
+- ```text
+    import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+  ```
+- with
+- ```text
+    import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+  ```
+  
+## Path Parameters
+- ```java
+     mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("v1/beer", pathParameters(
+                        parameterWithName("beerId").description("UUID of desired beer to get")
+                )));
+    notice {beerId} matches with parameter name
+  ```
