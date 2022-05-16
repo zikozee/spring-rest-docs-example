@@ -29,7 +29,7 @@
                         </configuration>
                     </execution>
                 </executions>
-                <dependencies>
+                <dependencies>  
                     <dependency>
                         <groupId>org.springframework.restdocs</groupId>
                         <artifactId>spring-restdocs-asciidoctor</artifactId>
@@ -105,21 +105,21 @@
 
 ## Documenting Validation Constraints
 - create test resources folder (re-import maven)
-- create directory one by one org > springframework > restdocs > templates
+- create directory one by one org > springframework > restdocs > templates in the resources folder
 - add file request-fields.snippet
 - input the below
 - ```text
-        |===
-        |Path|Type|Description|Constraints
-
-    {{#fields}}
-        |{{path}}
-        |{{type}}
-        |{{description}}
-        |{{constraints}}
-
-    {{/fields}}
-        |===
+   |===
+   |Path|Type|Description|Constraints
+   
+   {{#fields}}
+   |{{path}}
+   |{{type}}
+   |{{description}}
+   |{{constraints}}
+   
+   {{/fields}}
+   |===
   ```
   
 - running tests now we will get the below error
